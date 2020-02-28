@@ -7,6 +7,9 @@
 
 
 
+export DRONE_RPC_HOST=droneio.gotdns.ch:3000
+export DRONE_RPC_PROTO=http
+export DRONE_RPC_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_RPC_SECRET)
 
 
 sudo docker run -d \

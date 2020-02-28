@@ -8,6 +8,13 @@
 
 
 
+export DRONE_GITHUB_CLIENT_ID=4e8e6284eebb9a0a49a6
+export DRONE_GITHUB_CLIENT_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_GITHUB_CLIENT_SECRET)
+export DRONE_RPC_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_RPC_SECRET)
+export DRONE_SERVER_HOST=droneio.gotdns.ch
+export DRONE_SERVER_PROTO=http
+
+
 sudo docker run \
   --volume=/var/lib/drone:/data \
   --env=DRONE_GITHUB_CLIENT_ID=$DRONE_GITHUB_CLIENT_ID \
@@ -21,3 +28,5 @@ sudo docker run \
   --detach=true \
   --name=drone \
   drone/drone:1
+
+
