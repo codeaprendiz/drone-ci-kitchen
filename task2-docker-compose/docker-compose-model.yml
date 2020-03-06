@@ -11,8 +11,8 @@ services:
     restart: always
     environment:
       - DRONE_GITHUB_CLIENT_ID=8f7bae6755a6e42fb76d
-      - DRONE_GITHUB_CLIENT_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_GITHUB_CLIENT_SECRET)
-      - DRONE_RPC_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_RPC_SECRET)
+      - DRONE_GITHUB_CLIENT_SECRET=SUBSTITUTE_DRONE_GITHUB_CLIENT_SECRET
+      - DRONE_RPC_SECRET=SUBSTITUTE_DRONE_RPC_SECRET
       - DRONE_SERVER_HOST=droneio.gotdns.ch
       - DRONE_SERVER_PROTO=https
 # Drone should on public facing server with internet access
@@ -44,7 +44,7 @@ services:
     environment:
       - DRONE_RPC_HOST=droneio.gotdns.ch:80
       - DRONE_RPC_PROTO=http
-      - DRONE_RPC_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_RPC_SECRET)
+      - DRONE_RPC_SECRET=SUBSTITUTE_DRONE_RPC_SECRET
       - DRONE_DEBUG=true
       - DRONE_TRACE=true
 # This generates significant output and should only be enabled to troubleshoot communication issues.
