@@ -1,9 +1,12 @@
 #!/bin/bash
 ####################################
 #
-# Initialization
+# run.sh
 #
 ####################################
 
+./decrypt_secret.sh 2>/dev/null
 
-sudo mkdir /etc/drone
+sudo docker-compose up -d
+
+rm -rf ./secrets

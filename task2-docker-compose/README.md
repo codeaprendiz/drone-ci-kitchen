@@ -1,5 +1,8 @@
 # drone-ci-kitchen
 
+## Task : To set up drone-ci server and drone using docker-compose
+
+
 - Referenced Websites
     - https://eriksamuelsson.com/how-to-install-and-configure-drone-ci-on-a-self-hosted-server/
     - https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-18-04
@@ -25,6 +28,23 @@
 - To start the services
 ```bash
 ./run.sh
+```
+
+- To encrypt the secrets
+```bash
+# Create a file secrets.json with secrets saved as key value pairs and then run the following command
+gpg --symmetric --cipher-algo AES256 secrets.json
+
+    ┌──────────────────────────────────────────────────────┐
+    │ Enter passphrase                                     │
+    │                                                      │
+    │                                                      │
+    │ Passphrase: ________________________________________ │
+    │                                                      │
+    │       <OK>                              <Cancel>     │
+    └──────────────────────────────────────────────────────┘
+
+Remember this passphrase as you will need to use it to decrypt your secrets.
 ```
     
     

@@ -1,0 +1,59 @@
+version: '3'
+services:
+  drone-server:
+    container_name: drone
+    image: drone/drone:1
+    ports:
+      - 0.0.0.0:80:80
+      - 0.0.0.0:443:443
+    volumes:
+      - /var/lib/drone:/data
+    restart: always
+    environment:
+      - DRONE_GITHUB_CLIENT_ID=8f7bae6755a6e42fb76d
+      - DRONE_GITHUB_CLIENT_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_GITHUB_CLIENT_SECRET)
+      - DRONE_RPC_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_RPC_SECRET)
+      - DRONE_SERVER_HOST=droneio.gotdns.ch
+      - DRONE_SERVER_PROTO=https
+# Drone should on public facing server with internet access
+      - DRONE_TLS_AUTOCERT=true
+# https://github.com/drone/drone/issues/2779
+      - DRONE_USER_CREATE=username:octocat,admin:true
+      - DRONE_USER_CREATE=username:octocat,machine:false,admin:true,token:575c8078108ad712d7caddd5d305811b
+      #Secrets to be configured in CI
+#      - Reference doc - https://eriksamuelsson.com/how-to-install-and-configure-drone-ci-on-a-self-hosted-server/
+#      - deploy_host=droneio.gotdns.ch
+#      - deploy_port=22
+#      - deploy_user=codeaprendiz
+#      - deploy_target=
+#      - deploy_key
+
+
+
+  drone-agent:
+    container_name: runner
+    image: drone/drone-runner-docker:1
+    ports:
+      - 0.0.0.0:3000:80
+    command: agent
+    restart: always
+    depends_on:
+      - drone-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DRONE_RPC_HOST=droneio.gotdns.ch:80
+      - DRONE_RPC_PROTO=http
+      - DRONE_RPC_SECRET=$(cat ./.secrets/secrets.json | jq -r .DRONE_RPC_SECRET)
+      - DRONE_DEBUG=true
+      - DRONE_TRACE=true
+# This generates significant output and should only be enabled to troubleshoot communication issues.
+#      - DRONE_RPC_DUMP_HTTP=true
+#      - DRONE_RPC_DUMP_HTTP_BODY=true
+#  The user interface is disabled by default. To enable the user interface you must configure the runner with a username and password.
+      - DRONE_UI_USERNAME=root
+      - DRONE_UI_PASSWORD=root
+
+
+
+

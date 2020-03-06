@@ -1,3 +1,5 @@
 .idea
 
 .secrets
+
+*secrets.json
