@@ -5,7 +5,7 @@
 #
 ####################################
 
-../decrypt_secret.sh tas2-docker-compose >/dev/null
+../decrypt_secret.sh task2-docker-compose >/dev/null
 
 sudo docker-compose up -d
 
