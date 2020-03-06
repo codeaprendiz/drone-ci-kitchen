@@ -17,7 +17,7 @@ steps:
         from_secret: docker_password
       repo: testaccount12/web
       tags: latest
-      dockerfile: nodejs-hello/Dockerfile
+      dockerfile: task3-node-hello-world-pipeline/nodejs-hello/Dockerfile
 
 # http://plugins:drone:io/drone-plugins/drone-slack/
   - name: slack
