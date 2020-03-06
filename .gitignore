@@ -1,5 +1,5 @@
 .idea
-
 .secrets
-
 *secrets.json
+
+package-lock.json
