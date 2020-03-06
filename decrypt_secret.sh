@@ -1,7 +1,15 @@
 #!/bin/sh
 
-read -p "Enter the folder where secrets need to be decrypted: " nameOfDir
-nameOfDir=${nameOfDir:-task2-docker-compose}
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 DIRECTORY"
+  exit 1
+fi
+
+nameOfDir=$1
+
+#read -p "Enter the folder where secrets need to be decrypted: " nameOfDir
+#nameOfDir=${nameOfDir:-task2-docker-compose}
+
 echo $nameOfDir
 # Decrypt the file
 mkdir -p ./$nameOfDir/.secrets 2>/dev/null
