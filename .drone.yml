@@ -11,12 +11,12 @@ steps:
     image: mongo:4
     commands:
       - sleep 5
-      - mongo --host localhost --eval "db.version()"
+      - mongo --host mongo --eval "db.version()"
 
 services:
   - name: mongo
     image: mongo:4
-    command: [ /usr/bin/mongod --smallfiles  ]
+    command: [ --smallfiles ]
     ports:
       - 27017
 
