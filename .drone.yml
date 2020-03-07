@@ -1,46 +1,43 @@
+---
 kind: pipeline
-name: dev
+name: mongotests
 when:
   event: [ push ]
   branch: [ master ]
 
+services:
+- name: mongo
+  image: mongo:4
+  command: [ --smallfiles ]
+  ports:
+  - 27017
 
-# To build a docker image
-# http://plugins.drone.io/drone-plugins/drone-docker/
+type: docker
 steps:
-  - name: docker
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      repo: testaccount12/web
-      tags: latest
-      dockerfile: task3-node-hello-world-pipeline/nodejs-hello/Dockerfile
+- name: build-step
+  image: alpine
+  commands:
+  - echo "this should be a step that does something"
 
-# http://plugins:drone:io/drone-plugins/drone-slack/
-  - name: slack
-    image: plugins/slack
-    settings:
-      webhook:
-        from_secret: slack_webhook
-      channel: general
-      template: >
-        {{#if build.pull }}
-          *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}*: <https://github.com/{{ repo.owner }}/{{ repo.name }}/pull/{{ build.pull }}|Pull Request #{{ build.pull }}>
-        {{else}}
-          *{{#success build.status}}✔{{ else }}✘{{/success}} {{ uppercasefirst build.status }}: Build #{{ build.number }}* (type: `{{ build.event }}`)
-        {{/if}}
-        Commit: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commit/{{ build.commit }}|{{ truncate build.commit 8 }}>
-        Branch: <https://github.com/{{ repo.owner }}/{{ repo.name }}/commits/{{ build.branch }}|{{ build.branch }}>
-        Author: {{ build.author }}
-        <{{ build.link }}|Visit build page ↗>
-      icon_url: https://i.pinimg.com/originals/51/29/a4/5129a48ddad9e8408d2757dd10eb836f.jpg
+- name: mongodb-return-version
+  image: mongo:4
+  commands:
+  - date
+  - mongo --host mongo --eval "db.version()"
 
+- name: mongodb-test-writes
+  image: mongo:4
+  commands:
+  - date
+  - sh task4-mongo-db-services/scripts/write_mongo.sh
 
+- name: mongodb-test-reads
+  image: mongo:4
+  commands:
+  - date
+  - sh task4-mongo-db-services/scripts/read_mongo.sh
 
-
-
-
-
+- name: last-step
+  image: alpine
+  commands:
+  - echo "completed at $(date)"
