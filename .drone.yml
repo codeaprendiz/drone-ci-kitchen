@@ -6,13 +6,12 @@ when:
   branch: [ master ]
 
 services:
-- name: mongo
-  image: mongo:4
-  command: [ --smallfiles ]
-  ports:
-  - 27017
+  - name: mongo
+    image: mongo:4
+    command: [ --smallfiles ]
+    ports:
+      - 27017
 
-type: docker
 steps:
 - name: build-step
   image: alpine
