@@ -1,0 +1,16 @@
+kind: pipeline
+type: docker
+name: default
+when:
+  event: [ push ]
+  branch: [ master ]
+
+steps:
+- name: ping
+  image: redis
+  commands:
+  - redis-cli -h cache ping
+
+services:
+- name: cache
+  image: redis
