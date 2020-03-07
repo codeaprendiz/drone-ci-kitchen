@@ -5,54 +5,55 @@ when:
   event: [ push ]
   branch: [ master ]
 
+# https://docker-runner.docs.drone.io/examples/service/mongo/
 
-steps:
-  - name: ping
-    image: mongo:4.0
-    commands:
-      - sleep 30
-      - mongo --host mongo --eval "db.version()"
+#steps:
+#  - name: ping
+#    image: mongo:4.0
+#    commands:
+#      - sleep 30
+#      - mongo --host mongo --eval "db.version()"
+#
+#services:
+#  - name: mongo
+#    image: mongo:4.0
+#    command: [ --smallfiles ]
+#    ports:
+#      - 27017
+
 
 services:
   - name: mongo
-    image: mongo:4.0
+    image: mongo:4
     command: [ --smallfiles ]
     ports:
       - 27017
 
+steps:
+- name: build-step
+  image: alpine
+  commands:
+  - echo "this should be a step that does something"
 
-#services:
-#  - name: mongo
-#    image: mongo:4
-#    command: [ --smallfiles ]
-#    ports:
-#      - 27017
-#
-#steps:
-#- name: build-step
-#  image: alpine
-#  commands:
-#  - echo "this should be a step that does something"
-#
-#- name: mongodb-return-version
-#  image: mongo:4
-#  commands:
-#  - date
-#  - mongo --host mongo --eval "db.version()"
-#
-#- name: mongodb-test-writes
-#  image: mongo:4
-#  commands:
-#  - date
-#  - sh task4-mongo-db-services/scripts/write_mongo.sh
-#
-#- name: mongodb-test-reads
-#  image: mongo:4
-#  commands:
-#  - date
-#  - sh task4-mongo-db-services/scripts/read_mongo.sh
-#
-#- name: last-step
-#  image: alpine
-#  commands:
-#  - echo "completed at $(date)"
+- name: mongodb-return-version
+  image: mongo:4
+  commands:
+  - date
+  - mongo --host mongo --eval "db.version()"
+
+- name: mongodb-test-writes
+  image: mongo:4
+  commands:
+  - date
+  - sh task4-mongo-db-services/scripts/write_mongo.sh
+
+- name: mongodb-test-reads
+  image: mongo:4
+  commands:
+  - date
+  - sh task4-mongo-db-services/scripts/read_mongo.sh
+
+- name: last-step
+  image: alpine
+  commands:
+  - echo "completed at $(date)"
