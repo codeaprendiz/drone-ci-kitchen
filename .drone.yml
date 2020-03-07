@@ -1,6 +1,6 @@
-kind: pipeline      # What kind of script - usually pipeline
-name: dev    # A descriptive name if the whole pipeline
-when:               # Only run the pipeline when it's a push to master
+kind: pipeline
+name: dev
+when:
   event: [ push ]
   branch: [ master ]
 
